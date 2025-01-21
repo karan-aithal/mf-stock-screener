@@ -1,5 +1,10 @@
 # mf-stock-screener
 
+yarn install
+yarn dev -- backend 
+yarn start
+
+
 backend/
 ├── src/
 │   ├── app.ts                     # Main Express app

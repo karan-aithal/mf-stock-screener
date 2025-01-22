@@ -44,3 +44,41 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+frontend/
+├── public/                        # Static assets
+│   ├── index.html                 # Entry point
+│   └── favicon.ico
+├── src/                           # Source code
+│   ├── App.tsx                    # Main React app component
+│   ├── index.tsx                  # React entry point
+│   ├── components/                # Reusable components
+│   │   ├── Auth/                  # Authentication components
+│   │   │   ├── Login.tsx          # Login form
+│   │   │   └── Register.tsx       # Registration form
+│   │   ├── Charts/                # Chart components
+│   │   │   ├── CryptoChart.tsx    # Crypto coin chart
+│   │   │   ├── MutualFundChart.tsx# Mutual fund chart
+│   │   │   └── StockChart.tsx     # Stock chart
+│   │   ├── Alerts/                # Alert components
+│   │   │   ├── CryptoAlert.tsx    # Crypto alerts
+│   │   │   ├── MutualFundAlert.tsx# Mutual fund alerts
+│   │   │   └── StockAlert.tsx     # Stock alerts
+│   │   └── Dashboard.tsx          # Main dashboard component
+│   ├── contexts/                  # Context API for global state
+│   │   └── AuthContext.tsx        # Authentication state
+│   ├── models/                    # Data models
+│   │   ├── Crypto.ts              # Crypto data model
+│   │   ├── MutualFund.ts          # Mutual fund data model
+│   │   └── Stock.ts               # Stock data model
+│   ├── services/                  # API integration logic
+│   │   ├── AuthService.ts         # Authentication API
+│   │   ├── CryptoService.ts       # Crypto API
+│   │   ├── MutualFundService.ts   # Mutual fund API
+│   │   └── StockService.ts        # Stock API
+│   ├── styles/                    # CSS styles
+│   │   └── main.css               # Global styles
+│   └── utils/                     # Utility functions
+│       └── fetchWrapper.ts        # Wrapper for API calls
+├── package.json                   # Frontend dependencies
+└── tsconfig.json                  # TypeScript configuration

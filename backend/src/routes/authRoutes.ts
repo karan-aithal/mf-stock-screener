@@ -1,5 +1,7 @@
 import express from "express";
 import { AuthController } from "../controllers/authController";
+import passport from "../middlewares/googleAuth";
+
 
 const router = express.Router();
 const authController = new AuthController();
@@ -36,5 +38,21 @@ router.post("/google-login", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+
+// Redirect to Google for login
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+// Google callback
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false }),
+  (req, res) => {
+    const user = req.user as any;
+    // Send token and role to the client
+    res.json({ token: user.token, role: user.role });
+  }
+);
+
 
 export default router;

@@ -1,47 +1,31 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-//import logo from './logo.svg';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Login from './routes/Login';
+import Register from './routes/Register';
+import Dashboard from './routes/Dashboard';
+import { useAuth } from './hooks/useAuth';
+import type React from 'react';
 
-import './App.css';
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
 
-console.log("Google Client ID:", process.env.REACT_APP_GOOGLE_CLIENT_ID);
+function PrivateRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+}
 
-const App: React.FC = () => {
+
+export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<h2>Dashboard</h2>} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
-};
-
-export default App;
-
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-//export default App;
+}

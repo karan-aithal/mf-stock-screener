@@ -9,38 +9,38 @@ import { NotFoundException } from '@nestjs/common';
 
 @Controller('auth')
 export class AuthController {
-constructor(private auth: AuthService, private users: UsersService) {}
+  constructor(private auth: AuthService, private users: UsersService) { }
 
 
-@Post('register')
-async register(@Body() body: RegisterDto) {
-const user = await this.auth.register(body.email, body.password);
-return { id: user.id, email: user.email };
-}
-
-
-@Post('login')
-async login(@Body() body: LoginDto) {
-const user = await this.auth.validateUser(body.email, body.password);
-if (!user) return { error: 'Invalid credentials' };
-return this.auth.login(user);
-}
-
-
-@Get('verify')
-async verify(@Query('token') token: string) {
-await this.auth.verifyEmail(token);
-return { ok: true };
-}
-
-
-@UseGuards(JwtAuthGuard)
-@Get('me')
-async me(@Req() req: any) {
-const user = await this.users.findById(req.user.sub);
- if (!user) {
-    throw new NotFoundException('User not found');
+  @Post('register')
+  async register(@Body() body: RegisterDto) {
+    const user = await this.auth.register(body.email, body.password);
+    return { id: user.id, email: user.email };
   }
-return { id: user.id, email: user.email, isEmailVerified: user.isEmailVerified };
-}
+
+
+  @Post('login')
+  async login(@Body() body: LoginDto) {
+    const user = await this.auth.validateUser(body.email, body.password);
+    if (!user) return { error: 'Invalid credentials' };
+    return this.auth.login(user);
+  }
+
+
+  @Get('verify')
+  async verify(@Query('token') token: string) {
+    await this.auth.verifyEmail(token);
+    return { ok: true };
+  }
+
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async me(@Req() req: any) {
+    const user = await this.users.findById(req.user.sub);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return { id: user.id, email: user.email, isEmailVerified: user.isEmailVerified };
+  }
 }

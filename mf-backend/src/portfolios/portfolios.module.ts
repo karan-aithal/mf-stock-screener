@@ -6,8 +6,8 @@ import { UsersModule } from '../users/users.module';
 
 
 @Module({
-imports: [PrismaModule, UsersModule],
-controllers: [PortfoliosController],
-providers: [PortfoliosService],
+    imports: [PrismaModule, UsersModule],
+    controllers: [PortfoliosController],
+    providers: [PortfoliosService],
 })
-export class PortfoliosModule {}
+export class PortfoliosModule { }

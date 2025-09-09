@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+  //output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     String      @id @default(uuid())
+  email                  String      @unique
+  passwordHash           String
+  isEmailVerified        Boolean     @default(false)
+  emailVerificationToken String?
+  createdAt              DateTime    @default(now())
+  portfolios             Portfolio[]
+}
+
+model Portfolio {
+  id        String    @id @default(uuid())
+  userId    String
+  name      String
+  currency  String    @default("INR")
+  createdAt DateTime  @default(now())
+  holdings  Holding[]
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model Holding {
+  id           String    @id @default(uuid())
+  portfolioId  String
+  schemeCode   String
+  isin         String?
+  units        Decimal   @default(0)
+  avgPrice     Decimal   @default(0)
+  purchaseDate DateTime
+  metadata     Json?
+  portfolio    Portfolio @relation(fields: [portfolioId], references: [id])
+}
+
+model NavHistory {
+  id         String   @id @default(uuid())
+  schemeCode String
+  date       DateTime
+  nav        Decimal
+  source     String
+  updatedAt  DateTime @default(now())
+
+  @@index([schemeCode, date])
+}

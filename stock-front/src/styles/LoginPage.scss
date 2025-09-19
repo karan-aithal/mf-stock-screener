@@ -1,0 +1,77 @@
+ /* LoginPage.scss */
+  .login-page {
+    .header {
+      .title {
+        background: linear-gradient(135deg, #4299e1, #667eea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .subtitle {
+        color: #4a5568;
+      }
+    }
+
+    .forgot-password {
+      align-self: flex-end;
+      color: #4299e1;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #2b6cb0;
+        text-decoration: underline;
+      }
+    }
+
+    .primary-button {
+      background: linear-gradient(135deg, #4299e1, #667eea);
+
+      &:hover {
+        box-shadow: 0 10px 25px rgba(66, 153, 225, 0.3);
+      }
+    }
+
+    .input-group {
+      &:nth-child(1) .input-icon {
+        color: #4299e1;
+      }
+      
+      &:nth-child(2) .input-icon {
+        color: #4299e1;
+      }
+    }
+
+    .form-input {
+      &:focus {
+        border-color: #4299e1;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+      }
+    }
+
+    .password-toggle {
+      &:hover {
+        color: #4299e1;
+      }
+    }
+
+    .switch-button {
+      color: #4299e1;
+      
+      &:hover {
+        color: #2b6cb0;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .login-page {
+      .forgot-password {
+        font-size: 0.8rem;
+      }
+    }
+  }

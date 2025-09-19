@@ -1,0 +1,78 @@
+/* RegisterPage.scss */
+  .register-page {
+    .header {
+      .title {
+        background: linear-gradient(135deg, #38a169, #48bb78);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .subtitle {
+        color: #2d3748;
+      }
+    }
+
+    .primary-button {
+      background: linear-gradient(135deg, #38a169, #48bb78);
+
+      &:hover {
+        box-shadow: 0 10px 25px rgba(56, 161, 105, 0.3);
+      }
+    }
+
+    .input-group {
+      &:nth-child(1) .input-icon {
+        color: #38a169;
+      }
+      
+      &:nth-child(2) .input-icon {
+        color: #38a169;
+      }
+      
+      &:nth-child(3) .input-icon {
+        color: #38a169;
+      }
+      
+      &:nth-child(4) .input-icon {
+        color: #38a169;
+      }
+    }
+
+    .form-input {
+      &:focus {
+        border-color: #38a169;
+        box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
+      }
+    }
+
+    .password-toggle {
+      &:hover {
+        color: #38a169;
+      }
+    }
+
+    .switch-button {
+      color: #38a169;
+      
+      &:hover {
+        color: #2f855a;
+      }
+    }
+
+    .form {
+      gap: 1.25rem;
+    }
+
+    .input-group {
+      gap: 0.4rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .register-page {
+      .form {
+        gap: 1rem;
+      }
+    }
+  }

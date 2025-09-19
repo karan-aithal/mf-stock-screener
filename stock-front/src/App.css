@@ -1,4 +1,32 @@
-#root {
+ .app {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .auth-container {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .app {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .app {
+      padding: 0.75rem;
+    }
+  }
+
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +67,4 @@
 
 .read-the-docs {
   color: #888;
-}
+} */

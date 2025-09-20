@@ -1,18 +1,17 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import Dashboard from './routes/Dashboard';
-import { useAuth } from './hooks/useAuth';
+// import { Navigate, Route, Routes } from 'react-router-dom';
+// import Dashboard from './routes/Dashboard';
+// import { useAuth } from './hooks/useAuth';
 
 import React from 'react';
 import type { JSX } from 'react';
 import { useState } from 'react';
-//import { LoginForm } from "./components/LoginPage";
-import './styles/index.scss';
+
+
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 
-import type { AuthPageProps, ViewType, RegisterFormData, FormErrors } from '../src/types'
-import { validateEmail, validatePassword , validateName} from '../src/utils/validation';
-
+import type { ViewType } from '../src/types';
+import DarkVeil from './components/DarkVeil';
 
 
 // function PrivateRoute({ children }: { children: React.ReactNode }) {
@@ -28,29 +27,29 @@ const App: React.FC = () => {
     setCurrentView(view);
   };
 
-  const renderCurrentView =  (): JSX.Element => {
+  const renderCurrentView = (): JSX.Element => {
     switch (currentView) {
       case 'login':
         return (
-          <LoginPage 
+          <LoginPage
             onSwitchToRegister={() => handleViewChange('register')}
             onBack={() => handleViewChange('welcome')}
           />
         );
       case 'register':
         return (
-          <RegisterPage 
+          <RegisterPage
             onSwitchToLogin={() => handleViewChange('login')}
             onBack={() => handleViewChange('welcome')}
           />
         );
       default:
         return (
-          <>Welcome Page
-          <LoginPage 
-            onSwitchToRegister={() => handleViewChange('register')}
-            onBack={() => handleViewChange('welcome')}
-          />
+          <>
+            <LoginPage
+              onSwitchToRegister={() => handleViewChange('register')}
+              onBack={() => handleViewChange('welcome')}
+            />
           </>
           // <WelcomeScreen 
           //   onNavigateToLogin={() => handleViewChange('login')}
@@ -60,13 +59,14 @@ const App: React.FC = () => {
     }
   };
 
-   return (
+  return (
     <>
       {/* <style>{globalStyles}</style>
       <style>{componentStyles}</style>
       <style>{loginPageStyles}</style>
       <style>{registerPageStyles}</style>
       <style>{welcomePageStyles}</style> */}
+      
       <div className="app">
         <div className="auth-container">
           {renderCurrentView()}
@@ -77,17 +77,16 @@ const App: React.FC = () => {
 };
 
 export default App;
-    // <Routes>
-    //   <Route path="/login" element={<Login />} />
-    //   <Route path="/register" element={<Register />} />
-    //   <Route
-    //     path="/"
-    //     element={
-    //       <PrivateRoute>
-    //         <Dashboard />
-    //       </PrivateRoute>
-    //     }
-    //   />
-    //   <Route path="*" element={<Navigate to="/" />} />
-    // </Routes>
- 
+// <Routes>
+//   <Route path="/login" element={<Login />} />
+//   <Route path="/register" element={<Register />} />
+//   <Route
+//     path="/"
+//     element={
+//       <PrivateRoute>
+//         <Dashboard />
+//       </PrivateRoute>
+//     }
+//   />
+//   <Route path="*" element={<Navigate to="/" />} />
+// </Routes>

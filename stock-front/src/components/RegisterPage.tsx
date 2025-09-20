@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaGoogle, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
 import { Card, Text , Button, Separator} from '@radix-ui/themes';
-import type { AuthPageProps, ViewType, RegisterFormData, FormErrors } from '../types'
+import type { AuthPageProps, RegisterFormData, FormErrors } from '../types'
 import { validateEmail, validatePassword , validateName} from '../utils/validation';
 
 
@@ -103,7 +103,7 @@ const RegisterPage: React.FC<AuthPageProps> = ({ onSwitchToLogin, onBack }) => {
   };
 
   return (
-    <>
+    <div className="register-page">
       <button className="back-button" onClick={onBack} type="button">
         <FaArrowLeft />
       </button>
@@ -266,7 +266,7 @@ const RegisterPage: React.FC<AuthPageProps> = ({ onSwitchToLogin, onBack }) => {
           </button>
         </div>
       </Card>
-    </>
+    </div>
   );
 };
 

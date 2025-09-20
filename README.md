@@ -52,3 +52,79 @@ stock-front/
 │   ├── settings/
 │   ├── themes/
 │   ├── utils/
+
+-----------------------------------------------------------------------------
+
+* Scss styling *
+Each subfolder (base, components, pages) has an _index.scss that uses @forward to expose its internal styles.
+
+🧩 If you want scoped styles (no global leakage), convert your SCSS files to modules:
+
+Rename LoginPage.scss → LoginPage.module.scss
+import styles from '../styles/pages/LoginPage.module.scss';
+```
+
+└─ stock-front
+   ├─ eslint.config.js
+   ├─ index.html
+   ├─ package.json
+   ├─ public
+   │  ├─ icons
+   │  │  └─ sprite.jpg
+   │  └─ vite.svg
+   ├─ README.md
+   ├─ src
+   │  ├─ App.tsx
+   │  ├─ assets
+   │  │  └─ react.svg
+   │  ├─ components
+   │  │  ├─ AddHoldingModal.tsx
+   │  │  ├─ AddPortfolioModal.tsx
+   │  │  ├─ Header.tsx
+   │  │  ├─ LoginPage.tsx
+   │  │  └─ RegisterPage.tsx
+   │  ├─ contexts
+   │  │  └─ AuthContext.tsx
+   │  ├─ hooks
+   │  │  └─ useAuth.ts
+   │  ├─ index.css
+   │  ├─ main.tsx
+   │  ├─ routes
+   │  │  ├─ Dashboard.tsx
+   │  │  ├─ Login.tsx
+   │  │  └─ Register.tsx
+   │  ├─ services
+   │  │  └─ api.ts
+   │  ├─ styles
+   │  │  ├─ app.scss
+   │  │  ├─ base
+   │  │  │  ├─ _animations.scss
+   │  │  │  ├─ _index.scss
+   │  │  │  ├─ _mixins.scss
+   │  │  │  ├─ _typography.scss
+   │  │  │  └─ _variables.scss
+   │  │  ├─ components
+   │  │  │  ├─ _components.scss
+   │  │  │  └─ _index.scss
+   │  │  ├─ layouts
+   │  │  │  ├─ _index.scss
+   │  │  │  └─ _portfolio.scss
+   │  │  └─ pages
+   │  │     ├─ LoginPage.scss
+   │  │     ├─ RegistrationPage.scss
+   │  │     ├─ WelcomePage.scss
+   │  │     ├─ _hero.scss
+   │  │     └─ _index.scss
+   │  ├─ types
+   │  │  ├─ auth.ts
+   │  │  ├─ forms.ts
+   │  │  └─ index.ts
+   │  ├─ utils
+   │  │  └─ validation.ts
+   │  └─ vite-env.d.ts
+   ├─ tsconfig.app.json
+   ├─ tsconfig.json
+   ├─ tsconfig.node.json
+   ├─ vite.config.ts
+   └─ yarn.lock
+

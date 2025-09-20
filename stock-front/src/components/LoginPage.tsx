@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { FaEye, FaEyeSlash, FaGoogle, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
-import { Card, Text , Button, Separator} from '@radix-ui/themes';
-import type { AuthPageProps, ViewType, LoginFormData, FormErrors } from '../types'
+import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
+import { FcGoogle } from "react-icons/fc";
+import { Card, Text, Button, Separator } from '@radix-ui/themes';
+import type { AuthPageProps, LoginFormData, FormErrors } from '../types'
 import { validateEmail, validatePassword } from '../utils/validation';
-import '../styles/LoginPage.scss';
+//import '../styles/LoginPage.scss';
+// import '../styles/_components.scss';
 
 
 
@@ -22,7 +24,7 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -34,30 +36,30 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
-    
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!validateEmail(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (!validatePassword(formData.password)) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLDivElement>): Promise<void> => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
-    
+
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -85,13 +87,14 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
   };
 
   return (
-    <>
+    <div className='login-page'>
       <button className="back-button" onClick={onBack} type="button">
         <FaArrowLeft />
       </button>
-      
+
       <Card className="auth-card">
         <div className="header">
+          <img className='logo' src='/icons/LOGO_InvestSight.svg' alt='InvestSight'></img>
           <h1 className="title">Welcome Back</h1>
           <Text className="subtitle">Sign in to your account</Text>
         </div>
@@ -151,19 +154,19 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
             )}
           </div>
 
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="forgot-password"
             onClick={handleForgotPassword}
           >
             Forgot your password?
           </button>
 
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="primary-button"
             disabled={isLoading}
-            // onClick={handleSubmit}
+          // onClick={handleSubmit}
           >
             {isLoading ? 'Signing In...' : 'Sign In'}
           </Button>
@@ -176,16 +179,16 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
         </div>
 
         <div className="divider">
-          <Separator className="divider-line" />
+          <Separator color="blue" size="4" className="divider-line" />
           <span className="divider-text">or continue with</span>
         </div>
 
-        <Button 
-          type="button" 
+        <Button
+          type="button"
           className="google-button"
           onClick={handleGoogleLogin}
         >
-          <FaGoogle />
+          <FcGoogle className='google-icon' />
           Sign in with Google
         </Button>
 
@@ -193,8 +196,8 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
           <Text className="auth-switch-text">
             Don't have an account?
           </Text>
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="switch-button"
             onClick={onSwitchToRegister}
           >
@@ -202,7 +205,7 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
           </button>
         </div>
       </Card>
-    </>
+    </div>
   );
 };
 

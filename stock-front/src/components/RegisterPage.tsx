@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaGoogle, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
-import { Card, Text , Button, Separator} from '@radix-ui/themes';
+
 import type { AuthPageProps, RegisterFormData, FormErrors } from '../types'
 import { validateEmail, validatePassword , validateName} from '../utils/validation';
 
-
+import { Form } from '@base-ui-components/react';
+import { Field } from '@base-ui-components/react/field';
+import { Separator } from '@base-ui-components/react/separator';
 
 
 
@@ -108,10 +110,10 @@ const RegisterPage: React.FC<AuthPageProps> = ({ onSwitchToLogin, onBack }) => {
         <FaArrowLeft />
       </button>
       
-      <Card className="auth-card">
+      <Form className="auth-card">
         <div className="header">
           <h1 className="title">Create Account</h1>
-          <Text className="subtitle">Sign up to get started</Text>
+          <h3 className="subtitle">Sign up to get started</h3>
         </div>
 
         <div onSubmit={handleSubmit} className="form">
@@ -223,14 +225,14 @@ const RegisterPage: React.FC<AuthPageProps> = ({ onSwitchToLogin, onBack }) => {
             )}
           </div>
 
-          <Button 
+          <button 
             type="submit" 
             className="primary-button"
             disabled={isLoading}
             //onClick={handleSubmit}
           >
             {isLoading ? 'Creating Account...' : 'Create Account'}
-          </Button>
+          </button>
 
           {errors.general && (
             <div className="error-message" role="alert">
@@ -244,19 +246,19 @@ const RegisterPage: React.FC<AuthPageProps> = ({ onSwitchToLogin, onBack }) => {
           <span className="divider-text">or continue with</span>
         </div>
 
-        <Button 
+        <button 
           type="button" 
           className="google-button"
           onClick={handleGoogleRegister}
         >
           <FaGoogle />
           Sign up with Google
-        </Button>
+        </button>
 
         <div className="auth-switch">
-          <Text className="auth-switch-text">
+          <h3 className="auth-switch-text">
             Already have an account?
-          </Text>
+          </h3>
           <button 
             type="button" 
             className="switch-button"
@@ -265,7 +267,7 @@ const RegisterPage: React.FC<AuthPageProps> = ({ onSwitchToLogin, onBack }) => {
             Sign In
           </button>
         </div>
-      </Card>
+      </Form>
     </div>
   );
 };

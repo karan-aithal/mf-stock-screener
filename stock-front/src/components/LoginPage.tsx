@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
-import { Card, Text, Button, Separator } from '@radix-ui/themes';
+
 import type { AuthPageProps, LoginFormData, FormErrors } from '../types'
 import { validateEmail, validatePassword } from '../utils/validation';
+import { Form } from '@base-ui-components/react';
+import { Field } from '@base-ui-components/react/field';
+import { Separator } from '@base-ui-components/react/separator';
+import { Input } from '@base-ui-components/react/input';
 //import '../styles/LoginPage.scss';
 // import '../styles/_components.scss';
-
 
 
 const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
@@ -53,7 +56,7 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLDivElement>): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -87,48 +90,51 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
   };
 
   return (
-    <div className='login-page'>
+    <div className="login-page">
       <button className="back-button" onClick={onBack} type="button">
         <FaArrowLeft />
       </button>
 
-      <Card className="auth-card">
+      <div className="auth-card">
         <div className="header">
           <img className='logo' src='/icons/LOGO_InvestSight.svg' alt='InvestSight'></img>
           <h1 className="title">Welcome Back</h1>
-          <Text className="subtitle">Sign in to your account</Text>
+          <h3 className="subtitle">Sign in to your account</h3>
         </div>
 
-        <div onSubmit={handleSubmit} className="form">
-          <div className="input-group">
-            <label htmlFor="email" className="input-label">Email</label>
-            <div className="input-wrapper">
-              <FaEnvelope className="input-icon" />
-              <input
-                id="email"
+
+        <Form onSubmit={handleSubmit} errors={errors}
+       className="form">
+
+       
+          <Field.Root className="input-group">
+            <Field.Label htmlFor="email" className="input-label">Email</Field.Label>
+            <Field.Control className="form-Input"
+            type="email"/>
+            {/* <Field.Control 
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Enter your email"
-                className="form-input"
-                autoComplete="email"
-                aria-describedby={errors.email ? "email-error" : undefined}
-              />
-            </div>
-            {errors.email && (
+                // value={formData.email}
+                // onChange={handleInputChange} placeholder="Enter your email address"
+               // className="Form-Input"
+                
+                // aria-describedby={errors.email ? "email-error" : undefined}
+                >
+              <FaEnvelope className="input-icon" />
+
+            </Field.Control> */}
+            {/* <Field.Error> {errors.email && (
               <div id="email-error" className="error-message" role="alert">
                 {errors.email}
               </div>
-            )}
-          </div>
+            )}</Field.Error> */}
 
-          <div className="input-group">
-            <label htmlFor="password" className="input-label">Password</label>
-            <div className="input-wrapper">
+          </Field.Root>
+    
+          {/* <Field.Root className="input-group">
+            <Field.Label htmlFor="password" className="input-label">Password</Field.Label>
+            <Field.Control className="input-wrapper">
               <FaLock className="input-icon" />
-              <input
-                id="password"
+              <Input id="password"
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
@@ -136,8 +142,7 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
                 placeholder="Enter your password"
                 className="form-input"
                 autoComplete="current-password"
-                aria-describedby={errors.password ? "password-error" : undefined}
-              />
+                aria-describedby={errors.password ? "password-error" : undefined} />
               <button
                 type="button"
                 className="password-toggle"
@@ -146,14 +151,13 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
-            </div>
+            </Field.Control>
             {errors.password && (
               <div id="password-error" className="error-message" role="alert">
                 {errors.password}
               </div>
             )}
-          </div>
-
+          </Field.Root> */}
           <button
             type="button"
             className="forgot-password"
@@ -162,49 +166,50 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
             Forgot your password?
           </button>
 
-          <Button
+          <button
             type="submit"
             className="primary-button"
             disabled={isLoading}
           // onClick={handleSubmit}
           >
             {isLoading ? 'Signing In...' : 'Sign In'}
-          </Button>
+          </button>
 
           {errors.general && (
             <div className="error-message" role="alert">
               {errors.general}
             </div>
           )}
-        </div>
 
-        <div className="divider">
-          <Separator color="blue" size="4" className="divider-line" />
-          <span className="divider-text">or continue with</span>
-        </div>
 
-        <Button
-          type="button"
-          className="google-button"
-          onClick={handleGoogleLogin}
-        >
-          <FcGoogle className='google-icon' />
-          Sign in with Google
-        </Button>
+          <div className="divider">
+            <Separator className="divider-line" />
+            <span className="divider-text">or continue with</span>
+          </div>
 
-        <div className="auth-switch">
-          <Text className="auth-switch-text">
-            Don't have an account?
-          </Text>
           <button
             type="button"
-            className="switch-button"
-            onClick={onSwitchToRegister}
+            className="google-button"
+            onClick={handleGoogleLogin}
           >
-            Create Account
+            <FcGoogle className="google-icon" />
+            Sign in with Google
           </button>
-        </div>
-      </Card>
+
+          <div className="auth-switch">
+            <h3 className="auth-switch-text">
+              Don't have an account?
+            </h3>
+            <button
+              type="button"
+              className="switch-button"
+              onClick={onSwitchToRegister}
+            >
+              Create Account
+            </button>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 };

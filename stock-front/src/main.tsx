@@ -6,8 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext.tsx';
-import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
+
 // Import this once in your root file
 // main.tsx or index.tsx
 // This ensures all global styles, variables, mixins, and shared components are available across the app.
@@ -19,9 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Theme>
+      
           <App />
-        </Theme>
+        
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

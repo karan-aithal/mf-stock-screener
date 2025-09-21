@@ -11,11 +11,10 @@
 # Footer
 
 */
-
+// padding: 0.625rem 2.25rem;
 .auth-card {
-  //background-color: #adb5bd;
- // background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(50px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 0.625rem 2.25rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -70,11 +69,12 @@
   margin-bottom: 0.25rem;
 }
 
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
+// Field.Control was input-wrapper, now no wrapper required , so it is moved to form-input
+// .input-wrapper {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+// }
 
 .input-icon {
   position: absolute;
@@ -84,26 +84,51 @@
   z-index: 2;
 }
 
-.form-input {
+.form-Input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding-left: 0.875rem;
+  margin: 0;
+  border: 1px solid rgba(43, 40, 37, 0.08);
   width: 100%;
-  padding: 0.875rem 1rem 0.875rem 2.75rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-  background: white;
-  color: #2d3748;
+  height: 2.5rem;
+  border-radius: 0.375rem;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: transparent;
+  color: gray;
 
   &:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  }
-
-  &::placeholder {
-    color: #a0aec0;
+    outline: 2px solid blue;
+    outline-offset: -1px;
   }
 }
+
+// .form-input {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+//   width: 100%;
+//   padding: 0.875rem 1rem 0.875rem 2.75rem;
+//   border: 2px solid #e2e8f0;
+//   border-radius: 12px;
+//   font-size: 0.875rem;
+//   transition: all 0.2s ease;
+//   background: white;
+//   color: #2d3748;
+
+//   &:focus {
+//     outline: none;
+//     border-color: #667eea;
+//     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+//   }
+
+//   &::placeholder {
+//     color: #a0aec0;
+//   }
+// }
 
 .logo {
   width: 100%;
@@ -127,13 +152,18 @@
   }
 }
 
+.logo {
+  width: 100%;
+  padding: 1rem;
+}
+
 .primary-button {
   width: 18.375rem;
   height: 2.875rem;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border: none;
-  padding: 0rem 1.25rem;
+  padding: 0.875rem 1.5rem;
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
@@ -176,23 +206,23 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-   backdrop-filter: blur(100px);
-  background: black;
+  background: rgba(255, 255, 255, 0.95);
   padding: 0 1rem;
-  color:white;
+  color: #718096;
   font-size: 0.875rem;
   font-weight: 500;
 }
 
-
 // Correct way for buttons !!! 
+// width: 18.375rem;
+//   height: 2.875rem;
 .google-button {
   width: 18.375rem;
   height: 2.875rem;
   background: white;
-  color: #487bcc;
+  color: #4285f4;
   border: 2px solid #e2e8f0;
-  padding: 0rem 1.25rem;
+  padding: 0.875rem 1.5rem;
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 500;
@@ -224,10 +254,9 @@
 
 .auth-switch-text {
   color: #718096;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   margin-bottom: 0.75rem;
-  margin-right: 0.15rem;
-
+  //  margin-right: 0.15rem;
 }
 
 .switch-button {
@@ -236,12 +265,12 @@
   color: #667eea;
   font-weight: 600;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1rem;
   transition: color 0.2s ease;
 
   &:hover {
     color: #764ba2;
-    text-decoration: none;
+    text-decoration: underline;
   }
 }
 

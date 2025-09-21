@@ -1,5 +1,5 @@
  /* LoginPage.scss */
-  .login-page {
+   .login-page {
     .header {
       .title {
         background: linear-gradient(135deg, #4299e1, #667eea);
@@ -14,7 +14,6 @@
     }
 
     .forgot-password {
-      border: none;
       align-self: flex-end;
       color: #4299e1;
       font-size: 0.875rem;
@@ -22,11 +21,10 @@
       text-decoration: none;
       cursor: pointer;
       transition: color 0.2s ease;
-      background-color: transparent;
 
       &:hover {
         color: #2b6cb0;
-        text-decoration: none;
+        text-decoration: underline;
       }
     }
 

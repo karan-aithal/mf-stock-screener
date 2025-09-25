@@ -23,12 +23,15 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
+
+    // Update the form data. This must happen on every key press.
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
 
-    // Clear error when user starts typing
+    // This is the key change: When a user starts typing, we clear the error for that field.
+    // The error will be re-validated on blur. This prevents errors from appearing mid-word.
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -37,22 +40,37 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
     }
   };
 
-  const validateForm = (): boolean => {
+  // form submission validation and on-blur validation logic
+  const validateForm = (fieldToValidate?: string): boolean => {
     const newErrors: FormErrors = {};
 
+    // Email validation logic
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!validateEmail(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
 
+    // Password validation logic
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (!validatePassword(formData.password)) {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
-    setErrors(newErrors);
+    // If a specific field is provided, update only that error
+    if (fieldToValidate) {
+      const fieldError = newErrors[fieldToValidate] || '';
+      setErrors(prev => ({
+        ...prev,
+        [fieldToValidate]: fieldError
+      }));
+    } else {
+      // Otherwise, update all errors for form submission
+      setErrors(newErrors);
+    }
+
+    // Return true if there are no errors in the entire form
     return Object.keys(newErrors).length === 0;
   };
 
@@ -104,60 +122,48 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
 
 
         <Form onSubmit={handleSubmit} errors={errors}
-       className="form">
+          className="form">
 
-       
+
           <Field.Root className="input-group">
             <Field.Label htmlFor="email" className="input-label">Email</Field.Label>
-            <Field.Control className="form-Input"
-            type="email"/>
-            {/* <Field.Control 
-                type="email"
-                // value={formData.email}
-                // onChange={handleInputChange} placeholder="Enter your email address"
-               // className="Form-Input"
-                
-                // aria-describedby={errors.email ? "email-error" : undefined}
-                >
-              <FaEnvelope className="input-icon" />
-
-            </Field.Control> */}
-            {/* <Field.Error> {errors.email && (
+            <Field.Control
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              onBlur={() => validateForm('email')}
+              placeholder="Enter your email address"
+              className="form-input"
+              aria-describedby={errors.email ? "email-error" : undefined}
+            />
+            {errors.email && (
               <div id="email-error" className="error-message" role="alert">
                 {errors.email}
               </div>
-            )}</Field.Error> */}
-
+            )}
           </Field.Root>
-    
-          {/* <Field.Root className="input-group">
+
+          <Field.Root className="input-group">
             <Field.Label htmlFor="password" className="input-label">Password</Field.Label>
-            <Field.Control className="input-wrapper">
-              <FaLock className="input-icon" />
-              <Input id="password"
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Enter your password"
-                className="form-input"
-                autoComplete="current-password"
-                aria-describedby={errors.password ? "password-error" : undefined} />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={togglePasswordVisibility}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </Field.Control>
+            <Field.Control
+              id="password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              onBlur={() => validateForm('password')}
+              placeholder="Enter your password"
+              className="form-input"
+              aria-describedby={errors.password ? "password-error" : undefined}
+            />
             {errors.password && (
               <div id="password-error" className="error-message" role="alert">
                 {errors.password}
               </div>
             )}
-          </Field.Root> */}
+          </Field.Root>
           <button
             type="button"
             className="forgot-password"

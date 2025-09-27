@@ -13,6 +13,8 @@ import RegisterPage from "./components/RegisterPage";
 import type { ViewType } from '../src/types';
 import DarkVeil from './components/DarkVeil';
 
+import ThemeToggle from './components/ThemeToggle';
+
 
 // function PrivateRoute({ children }: { children: React.ReactNode }) {
 //   const { isAuthenticated } = useAuth();
@@ -66,7 +68,7 @@ const App: React.FC = () => {
       <style>{loginPageStyles}</style>
       <style>{registerPageStyles}</style>
       <style>{welcomePageStyles}</style> */}
-      
+      <ThemeToggle />
       <div className="app">
         <div className="auth-container">
           {renderCurrentView()}

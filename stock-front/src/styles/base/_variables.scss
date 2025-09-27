@@ -1,3 +1,5 @@
+@use './mixins';
+
 $_breakpoints: (
     // Use private convention
     sm: 640px,
@@ -41,3 +43,24 @@ $neutral-600: #525252;
 $black-100: #1a1a1a; // Replace with actual color value
 
 $max-w-7xl: 1280px; // 80rem; // 1280px
+
+
+//Apply Mixins to :root and Dark Mode
+//   automatically switch based on the user's system preference.
+// :root {
+//   @include light-theme;
+// }
+
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     @include dark-theme;
+//   }
+// }
+
+.theme-light {
+  @include mixins.light-theme;
+}
+
+.theme-dark {
+  @include mixins.dark-theme;
+}

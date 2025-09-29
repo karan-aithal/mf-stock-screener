@@ -7,6 +7,14 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext.tsx';
 
+// If you want to use routing and protected routes, you can set up
+// automatic route rendering in a React app using React Router and context-based authentication.
+// implement authenticated, role-based access control and login state management.
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext";
+
+
 // Import this once in your root file
 // main.tsx or index.tsx
 // This ensures all global styles, variables, mixins, and shared components are available across the app.

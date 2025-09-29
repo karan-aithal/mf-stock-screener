@@ -1,0 +1,161 @@
+:root {
+  --bg-light: #ffffff;
+  --bg-dark: #1a1a1a;
+  --text-light: #000000;
+  --text-dark: #ffffff;
+  --accent: #f0f0f0;
+}
+
+body[data-theme='light'] {
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+
+body[data-theme='dark'] {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.navbar {
+  width: 100vw;
+  height: 10vh;
+  padding: 1rem 2vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-light);
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.menu {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  background-color: var(--accent);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 1rem;
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+}
+
+.dropdown-menu.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.dropdown-item {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  transition: background 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #ddd;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle {
+  font-size: 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+/* Mobile */
+.mobile-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+  }
+
+  .menu {
+    position: fixed;
+    top: 0;
+    right: -100vw;
+    width: 80vw;
+    height: 100vh;
+    background-color: var(--bg-light);
+    flex-direction: column;
+    padding: 2rem;
+    transition: right 0.4s ease;
+    z-index: 900;
+  }
+
+  .menu.open {
+    right: 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    grid-template-columns: 1fr;
+  }
+}

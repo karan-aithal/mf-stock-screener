@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from "react";
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
 
@@ -7,124 +7,102 @@ import { validateEmail, validatePassword } from '../utils/validation';
 import { Form } from '@base-ui-components/react';
 import { Field } from '@base-ui-components/react/field';
 import { Separator } from '@base-ui-components/react/separator';
+
+import { AuthContext } from "../contexts/AuthContext"; 
+
 import { Input } from '@base-ui-components/react/input';
-//import '../styles/LoginPage.scss';
-// import '../styles/_components.scss';
 
 
-const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: ''
-  });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+
+const LoginPage: React.FC = () => {
+  const { login } = useContext(AuthContext)!;
+  const [formData, setFormData] = useState<LoginFormData>({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);  
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string | string[] }>({});
+  const [formErrors, setFormErrors] = useState<{ general?: string | string[] }>({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Handle input change
+   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
 
-    // Update the form data. This must happen on every key press.
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-    // This is the key change: When a user starts typing, we clear the error for that field.
-    // The error will be re-validated on blur. This prevents errors from appearing mid-word.
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+    // Clear field-level error for this input
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => ({ ...prev, [name]: "" }));
     }
   };
 
-  // form submission validation and on-blur validation logic
-  const validateForm = (fieldToValidate?: string): boolean => {
-    const newErrors: FormErrors = {};
+  // Validate form
+ const validateForm = (field?: string): boolean => {
+    const errors: { [key: string]: string | string[] } = {};
 
-    // Email validation logic
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
+    if (!formData.email.trim()) errors.email = "Email is required";
+    else if (!validateEmail(formData.email)) errors.email = "Invalid email";
 
-    // Password validation logic
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (!validatePassword(formData.password)) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
+    if (!formData.password) errors.password = "Password is required";
+    else if (!validatePassword(formData.password)) errors.password = "Password must be at least 6 characters";
 
-    // If a specific field is provided, update only that error
-    if (fieldToValidate) {
-      const fieldError = newErrors[fieldToValidate] || '';
-      setErrors(prev => ({
-        ...prev,
-        [fieldToValidate]: fieldError
-      }));
+    if (field) {
+      setFieldErrors(prev => ({ ...prev, [field]: errors[field] || "" }));
     } else {
-      // Otherwise, update all errors for form submission
-      setErrors(newErrors);
+      setFieldErrors(errors);
     }
 
-    // Return true if there are no errors in the entire form
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  // Submit handler
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     setIsLoading(true);
+    setFormErrors({}); // reset form-level errors
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Login attempt:', formData);
-      alert('Login successful! (Demo)');
-    } catch (error) {
-      console.error('Login failed:', error);
-      setErrors({ general: 'Login failed. Please try again.' });
+      await login(formData.email, formData.password);
+      // Success → clear all errors
+      setFieldErrors({});
+      setFormErrors({});
+    } catch (err: any) {
+      // Form-level error (server response)
+      setFormErrors({ general: err?.message || "Login failed. Please try again." });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleGoogleLogin = (): void => {
-    console.log('Google login initiated');
-    alert('Google OAuth integration would go here');
-  };
+  const togglePasswordVisibility = () => setShowPassword(prev => !prev);
 
-  const togglePasswordVisibility = (): void => {
-    setShowPassword(prev => !prev);
-  };
+  const handleForgotPassword = () => alert("Forgot password functionality would go here");
 
-  const handleForgotPassword = (): void => {
-    alert('Forgot password functionality would be implemented here');
-  };
+  const handleGoogleLogin = () => alert("Google OAuth integration would go here");
 
   return (
     <div className="login-page">
-      <button className="back-button" onClick={onBack} type="button">
+      <button className="back-button" type="button" onClick={() => window.history.back()}>
         <FaArrowLeft />
       </button>
 
       <div className="auth-card">
         <div className="header">
-          <img className='logo' src='/icons/LOGO_InvestSight.svg' alt='InvestSight'></img>
+          <img className="logo" src="/icons/LOGO_InvestSight.svg" alt="InvestSight" />
           <h1 className="title">Welcome Back</h1>
           <h3 className="subtitle">Sign in to your account</h3>
         </div>
 
+        <Form onSubmit={handleSubmit}  errors={fieldErrors}  className="form">
+          {/* Form-level error */}
+          {formErrors?.general && (
+            <div className="error-message form-error" role="alert">
+              {formErrors.general}
+            </div>
+          )}
 
-        <Form onSubmit={handleSubmit} errors={errors}
-          className="form">
-
-
+          {/* Email field */}
           <Field.Root className="input-group">
             <Field.Label htmlFor="email" className="input-label">Email</Field.Label>
             <Field.Control
@@ -133,86 +111,60 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              onBlur={() => validateForm('email')}
-              placeholder="Enter your email address"
+              onBlur={() => validateForm("email")}
+              placeholder="Enter your email"
               className="form-input"
-              aria-describedby={errors.email ? "email-error" : undefined}
+              aria-describedby={fieldErrors?.email ? "email-error" : undefined}
             />
-            {errors.email && (
-              <div id="email-error" className="error-message" role="alert">
-                {errors.email}
-              </div>
+            {fieldErrors?.email && (
+              <div id="email-error" className="error-message" role="alert">{fieldErrors.email}</div>
             )}
           </Field.Root>
 
+          {/* Password field */}
           <Field.Root className="input-group">
             <Field.Label htmlFor="password" className="input-label">Password</Field.Label>
-            <Field.Control
-              id="password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              onBlur={() => validateForm('password')}
-              placeholder="Enter your password"
-              className="form-input"
-              aria-describedby={errors.password ? "password-error" : undefined}
-            />
-            {errors.password && (
-              <div id="password-error" className="error-message" role="alert">
-                {errors.password}
-              </div>
+            <div className="password-wrapper">
+              <Field.Control
+                id="password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                onBlur={() => validateForm("password")}
+                placeholder="Enter your password"
+                className="form-input"
+                aria-describedby={fieldErrors?.password ? "password-error" : undefined}
+              />
+              <button type="button" onClick={togglePasswordVisibility}>
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+            {fieldErrors?.password && (
+              <div id="password-error" className="error-message" role="alert">{fieldErrors.password}</div>
             )}
           </Field.Root>
-          <button
-            type="button"
-            className="forgot-password"
-            onClick={handleForgotPassword}
-          >
+
+          <button type="button" className="forgot-password" onClick={handleForgotPassword}>
             Forgot your password?
           </button>
 
-          <button
-            type="submit"
-            className="primary-button"
-            disabled={isLoading}
-          // onClick={handleSubmit}
-          >
-            {isLoading ? 'Signing In...' : 'Sign In'}
+          <button type="submit" className="primary-button" disabled={isLoading}>
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
-
-          {errors.general && (
-            <div className="error-message" role="alert">
-              {errors.general}
-            </div>
-          )}
-
 
           <div className="divider">
             <Separator className="divider-line" />
             <span className="divider-text">or continue with</span>
           </div>
 
-          <button
-            type="button"
-            className="google-button"
-            onClick={handleGoogleLogin}
-          >
-            <FcGoogle className="google-icon" />
-            Sign in with Google
+          <button type="button" className="google-button" onClick={handleGoogleLogin}>
+            <FcGoogle className="google-icon" /> Sign in with Google
           </button>
 
           <div className="auth-switch">
-            <h3 className="auth-switch-text">
-              Don't have an account?
-            </h3>
-            <button
-              type="button"
-              className="switch-button"
-              onClick={onSwitchToRegister}
-            >
-              Create Account
-            </button>
+            <h3 className="auth-switch-text">Don't have an account?</h3>
+            <a href="/register" className="switch-button">Create Account</a>
           </div>
         </Form>
       </div>
@@ -221,3 +173,5 @@ const LoginPage: React.FC<AuthPageProps> = ({ onSwitchToRegister, onBack }) => {
 };
 
 export default LoginPage;
+
+

@@ -1,18 +1,15 @@
-// import { Navigate, Route, Routes } from 'react-router-dom';
-// import Dashboard from './routes/Dashboard';
-// import { useAuth } from './hooks/useAuth';
-
-import React from 'react';
-import type { JSX } from 'react';
-import { useState } from 'react';
-
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
+import WelcomePage from './components/WelcomePage';
+// import Dashboard from "./pages/Dashboard";
+// import Blog from "./pages/Blog";
+import PrivateRoute from "./routes/PrivateRoute";
+
 
 import type { ViewType } from '../src/types';
 import DarkVeil from './components/DarkVeil';
-
 import ThemeToggle from './components/ThemeToggle';
 
 
@@ -21,74 +18,98 @@ import ThemeToggle from './components/ThemeToggle';
 //   return isAuthenticated ? children : <Navigate to="/login" replace />;
 // }
 
-
-const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<ViewType>('welcome');
-
-  const handleViewChange = (view: ViewType): void => {
-    setCurrentView(view);
-  };
-
-  const renderCurrentView = (): JSX.Element => {
-    switch (currentView) {
-      case 'login':
-        return (
-          <LoginPage
-            onSwitchToRegister={() => handleViewChange('register')}
-            onBack={() => handleViewChange('welcome')}
-          />
-        );
-      case 'register':
-        return (
-          <RegisterPage
-            onSwitchToLogin={() => handleViewChange('login')}
-            onBack={() => handleViewChange('welcome')}
-          />
-        );
-      default:
-        return (
-          <>
-            <LoginPage
-              onSwitchToRegister={() => handleViewChange('register')}
-              onBack={() => handleViewChange('welcome')}
-            />
-          </>
-          // <WelcomeScreen 
-          //   onNavigateToLogin={() => handleViewChange('login')}
-          //   onNavigateToRegister={() => handleViewChange('register')}
-          // />
-        );
-    }
-  };
-
+const App = () => {
   return (
-    <>
-      {/* <style>{globalStyles}</style>
-      <style>{componentStyles}</style>
-      <style>{loginPageStyles}</style>
-      <style>{registerPageStyles}</style>
-      <style>{welcomePageStyles}</style> */}
-      <ThemeToggle />
-      <div className="app">
-        <div className="auth-container">
-          {renderCurrentView()}
-        </div>
-      </div>
-    </>
+    <Routes>
+      {/* Public pages */}
+      {/* <Route path="/" element={<WelcomePage />} /> */}
+      <Route path="/login" element={<LoginPage />} />
+      {/* <Route path="/register" element={<RegisterPage />} /> */}
+
+      {/* Protected pages */}
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute allowedRoles={["user", "admin"]}>
+            {/* <Dashboard /> */}
+            <h2>Dashboard - Protected Route</h2>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/blog"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            {/* <Blog /> */}
+            <h2>Blog - Admin Only</h2>
+          </PrivateRoute>
+        }
+      />
+
+      {/* Unauthorized + fallback */}
+      <Route path="/unauthorized" element={<h2>Access Denied</h2>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 };
 
 export default App;
-// <Routes>
-//   <Route path="/login" element={<Login />} />
-//   <Route path="/register" element={<Register />} />
-//   <Route
-//     path="/"
-//     element={
-//       <PrivateRoute>
-//         <Dashboard />
-//       </PrivateRoute>
+
+
+
+
+
+
+
+
+
+
+
+
+// const App: React.FC = () => {
+//   const [currentView, setCurrentView] = useState<ViewType>('welcome');
+
+//   const handleViewChange = (view: ViewType): void => {
+//     setCurrentView(view);
+//   };
+
+//   const renderCurrentView = (): JSX.Element => {
+//     switch (currentView) {
+//       case 'login':
+//         return (
+//           <LoginPage
+//             onSwitchToRegister={() => handleViewChange('register')}
+//             onBack={() => handleViewChange('welcome')}
+//           />
+//         );
+//       case 'register':
+//         return (
+//           <RegisterPage
+//             onSwitchToLogin={() => handleViewChange('login')}
+//             onBack={() => handleViewChange('welcome')}
+//           />
+//         );
+//       default:
+//         return (
+//           <>
+//           <WelcomePage
+//             onNavigateToLogin={() => handleViewChange('login')}
+//             onNavigateToRegister={() => handleViewChange('register')}
+//           />
+//            </>
+//         );
 //     }
-//   />
-//   <Route path="*" element={<Navigate to="/" />} />
-// </Routes>
+//   };
+
+//   return (
+//     <>
+//       <ThemeToggle />
+//       <div className="app">
+//         <div className="auth-container">
+//           {renderCurrentView()}
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+// export default App;

@@ -20,36 +20,40 @@ import ThemeToggle from './components/ThemeToggle';
 
 const App = () => {
   return (
-    <Routes>
-      {/* Public pages */}
-      {/* <Route path="/" element={<WelcomePage />} /> */}
-      <Route path="/login" element={<LoginPage />} />
-      {/* <Route path="/register" element={<RegisterPage />} /> */}
+    <>
+      <DarkVeil />
+      <Routes>
+        {/* Public pages */}
+        {/* <Route path="/" element={<WelcomePage />} /> */}
+        <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/register" element={<RegisterPage />} /> */}
 
-      {/* Protected pages */}
-      <Route
-        path="/dashboard"
-        element={
-          <PrivateRoute allowedRoles={["user", "admin"]}>
-            {/* <Dashboard /> */}
-            <h2>Dashboard - Protected Route</h2>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/blog"
-        element={
-          <PrivateRoute allowedRoles={["admin"]}>
-            {/* <Blog /> */}
-            <h2>Blog - Admin Only</h2>
-          </PrivateRoute>
-        }
-      />
+        {/* Protected pages */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute allowedRoles={["user", "admin"]}>
+              {/* <Dashboard /> */}
+              <><WelcomePage></WelcomePage></>
+              <h2>Dashboard - Protected Route</h2>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/blog"
+          element={
+            <PrivateRoute allowedRoles={["admin"]}>
+              {/* <Blog /> */}
+              <h2>Blog - Admin Only</h2>
+            </PrivateRoute>
+          }
+        />
 
-      {/* Unauthorized + fallback */}
-      <Route path="/unauthorized" element={<h2>Access Denied</h2>} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        {/* Unauthorized + fallback */}
+        <Route path="/unauthorized" element={<h2>Access Denied</h2>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 };
 

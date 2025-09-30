@@ -20,6 +20,7 @@ import { AuthContext } from "./contexts/AuthContext";
 // This ensures all global styles, variables, mixins, and shared components are available across the app.
 // and you don’t need to import them again in Components/Page.tsx
 import "./styles/app.scss";
+import DarkVeil from "./components/DarkVeil";
 
 // Load saved theme from localStorage
 // persists across reloads using localStorage
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
+         
           <App />
       </AuthProvider>
     </BrowserRouter>

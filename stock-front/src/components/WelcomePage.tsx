@@ -6,7 +6,7 @@ interface WelcomeScreenProps {
     onNavigateToRegister: () => void;
 }
 
-const WelcomePage: React.FC<WelcomeScreenProps> = (props) => {
+const WelcomePage: React.FC = (props) => {
 
 
 
@@ -15,8 +15,8 @@ const WelcomePage: React.FC<WelcomeScreenProps> = (props) => {
 
         <div>
             <NavBar></NavBar>
-            <button onClick={props.onNavigateToLogin}>Login</button>
-            <button onClick={props.onNavigateToRegister}>Register</button>
+            {/* <button onClick={props.onNavigateToLogin}>Login</button>
+            <button onClick={props.onNavigateToRegister}>Register</button> */}
         </div>
     );
 };

@@ -95,8 +95,11 @@ const LoginPage: React.FC = () => {
           <div className="auth-card">
             <div className="header">
               <img className="logo" src="/icons/LOGO_InvestSight.svg" alt="InvestSight" />
-              <h1 className="title">Welcome Back</h1>
+              
+              <h1 className="title"> Welcome Back </h1>
+              
               <h3 className="subtitle">Sign in to your account</h3>
+              
             </div>
 
             <Form onSubmit={handleSubmit} errors={fieldErrors} className="form">
@@ -144,6 +147,7 @@ const LoginPage: React.FC = () => {
                   <button type="button" className="password-toggle" onClick={togglePasswordVisibility}>
                     {showPassword ?<FaRegEyeSlash />  : <FaRegEye />}
                   </button>
+                  
                 {/* </div> */}
                 {fieldErrors?.password && (
                   <div id="password-error" className="error-message" role="alert">{fieldErrors.password}</div>

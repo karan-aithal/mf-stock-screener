@@ -11,10 +11,12 @@ datasource db {
 model User {
   id                     String      @id @default(uuid())
   email                  String      @unique
-  passwordHash           String
+  passwordHash           String?     // nullable for Google users
+   googleId              String?     @unique
   isEmailVerified        Boolean     @default(false)
   emailVerificationToken String?
   createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt    @default(now())
   portfolios             Portfolio[]
 }
 
